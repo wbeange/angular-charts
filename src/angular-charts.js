@@ -846,12 +846,13 @@ angular.module('angularCharts').directive('acChart', function($templateCache, $c
               makeToolTip({
                 value: d.data.tooltip ? d.data.tooltip : d.data.y[0]
               }, d3.event);
-              d3.select(this)
-                .select('path')
-                .transition()
-                .duration(200)
-                .style("stroke", "white")
-                .style("stroke-width", "2px");
+              // Removing mouseover styling - it looks gross
+              // d3.select(this)
+              //   .select('path')
+              //   .transition()
+              //   .duration(200)
+              //   .style("stroke", "white")
+              //   .style("stroke-width", "2px");
               config.mouseover(d, d3.event);
               scope.$apply();
             })
@@ -1071,17 +1072,14 @@ angular.module('angularCharts').directive('acChart', function($templateCache, $c
         data = data.value;
       }
 
-      var el = angular.element('<p class="ac-tooltip"></p>')
-        .html(data)
-        .css({
-          left: (event.pageX + 20) + 'px',
-          top: (event.pageY - 30) + 'px'
-        });
+      var el = angular.element('<p class="ac-tooltip"></p>').html(data);
 
       angular.element(document.querySelector('.ac-tooltip')).remove();
       angular.element(document.body).append(el);
 
       scope.$tooltip = el;
+
+      updateToolTip(event);
     }
 
     /**
@@ -1096,9 +1094,15 @@ angular.module('angularCharts').directive('acChart', function($templateCache, $c
 
     function updateToolTip(d, event) {
       if (scope.$tooltip) {
+
+        // Attach top left instead of top right
+        // var styleLeft = event.pageX + 20 + 'px';
+        var styleLeft = event.pageX - scope.$tooltip.width() - 20 + 'px';
+        var styleTop = event.pageY - 30 + 'px';
+
         scope.$tooltip.css({
-          left: (event.pageX + 20) + 'px',
-          top: (event.pageY - 30) + 'px'
+          left: styleLeft,
+          top: styleTop
         });
       }
     }
@@ -1164,15 +1168,17 @@ angular.module('angularCharts').directive('acChart', function($templateCache, $c
     }
 
     var w = angular.element($window);
-    var resizePromise = null;
-    w.bind('resize', function(ev) {
-      resizePromise && $timeout.cancel(resizePromise);
-      resizePromise = $timeout(function() {
-        totalWidth = element[0].clientWidth;
-        totalHeight = element[0].clientHeight;
-        init();
-      }, 100);
-    });
+
+    // Removing unwanted resize event
+    // var resizePromise = null;
+    // w.bind('resize', function(ev) {
+    //   resizePromise && $timeout.cancel(resizePromise);
+    //   resizePromise = $timeout(function() {
+    //     totalWidth = element[0].clientWidth;
+    //     totalHeight = element[0].clientHeight;
+    //     init();
+    //   }, 100);
+    // });
 
     scope.getWindowDimensions = function() {
       return {
@@ -1181,20 +1187,33 @@ angular.module('angularCharts').directive('acChart', function($templateCache, $c
       };
     };
 
+    // TODO - avoid deep watches
     // Watch for any of the config changing.
-    scope.$watch('[acChart, acData, acConfig]', init, true);
+    // scope.$watch('[acChart, acData, acConfig]', init, true);
+    // scope.$watch(function() {
+    //     return {
+    //       w: element[0].clientWidth,
+    //       h: element[0].clientHeight
+    //     };
+    //   },
+    //   function(newvalue) {
+    //     totalWidth = newvalue.w;
+    //     totalHeight = newvalue.h;
+    //     init();
+    //   }, true);
 
-    scope.$watch(function() {
-        return {
-          w: element[0].clientWidth,
-          h: element[0].clientHeight
-        };
+    // Custom lighter watch
+    scope.$watch(
+      function() {
+        if(scope.acData) {
+          return scope.acData.data[0].y[0] + "_" + scope.acData.data[1].y[0];
+        }
       },
-      function(newvalue) {
-        totalWidth = newvalue.w;
-        totalHeight = newvalue.h;
-        init();
-      }, true);
+      function(newVal, oldVal) {
+        if(newVal !== undefined && newVal != oldVal) {
+          init();
+        }
+      });
   }
 
   return {
