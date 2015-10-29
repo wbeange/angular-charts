@@ -9,36 +9,33 @@ angular.module('angularCharts', ['angularChartsTemplates']);
 angular.module('angularCharts').directive('acChart', function($templateCache, $compile, $rootElement, $window, $timeout, $sce) {
 
   var defaultColors = [
-
-    // our custom colours
     '#3da5de',
-    '#ffffff',
-
-    'rgb(255,153,0)',
-    'rgb(220,57,18)',
-    'rgb(70,132,238)',
-    'rgb(73,66,204)',
-    'rgb(0,128,0)',
-    'rgb(0, 169, 221)',
-    'steelBlue',
-    'rgb(0, 169, 221)',
-    'rgb(50, 205, 252)',
-    'rgb(70,132,238)',
-    'rgb(0, 169, 221)',
-    'rgb(5, 150, 194)',
-    'rgb(50, 183, 224)',
-    'steelBlue',
-    'rgb(2, 185, 241)',
-    'rgb(0, 169, 221)',
-    'steelBlue',
-    'rgb(0, 169, 221)',
-    'rgb(50, 205, 252)',
-    'rgb(70,132,238)',
-    'rgb(0, 169, 221)',
-    'rgb(5, 150, 194)',
-    'rgb(50, 183, 224)',
-    'steelBlue',
-    'rgb(2, 185, 241)'
+    '#ffffff'
+    // 'rgb(255,153,0)',
+    // 'rgb(220,57,18)',
+    // 'rgb(70,132,238)',
+    // 'rgb(73,66,204)',
+    // 'rgb(0,128,0)',
+    // 'rgb(0, 169, 221)',
+    // 'steelBlue',
+    // 'rgb(0, 169, 221)',
+    // 'rgb(50, 205, 252)',
+    // 'rgb(70,132,238)',
+    // 'rgb(0, 169, 221)',
+    // 'rgb(5, 150, 194)',
+    // 'rgb(50, 183, 224)',
+    // 'steelBlue',
+    // 'rgb(2, 185, 241)',
+    // 'rgb(0, 169, 221)',
+    // 'steelBlue',
+    // 'rgb(0, 169, 221)',
+    // 'rgb(50, 205, 252)',
+    // 'rgb(70,132,238)',
+    // 'rgb(0, 169, 221)',
+    // 'rgb(5, 150, 194)',
+    // 'rgb(50, 183, 224)',
+    // 'steelBlue',
+    // 'rgb(2, 185, 241)'
   ];
 
   /**
