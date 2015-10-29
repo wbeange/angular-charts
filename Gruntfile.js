@@ -106,8 +106,8 @@ module.exports = function(grunt) {
           'git checkout master -- bower.json',
           'mv -f dist/angular-charts.tmp.js dist/angular-charts.js',
           'mv -f dist/angular-charts.min.tmp.js dist/angular-charts.min.js',
-          // "git commit -am 'release <%= pkg.version %>'",
-          // 'git tag <%= pkg.version %>'
+          "git commit -am 'release <%= pkg.version %>'",
+          'git tag <%= pkg.version %>'
         ].join('&&')
       }
     }
@@ -117,6 +117,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['ngmin', 'htmlmin', 'html2js', 'csso', 'css2js', 'concat', 'uglify', 'clean']);
   grunt.registerTask('release', ['prompt', 'bowerValidateRelease']);
+  grunt.registerTask('preRelease', ['default', 'copy:bowerPreRelease']);
 
   grunt.registerTask('bowerValidateRelease', 'Make sure that we really want to release!', function() {
     if(grunt.config('release') === true) {

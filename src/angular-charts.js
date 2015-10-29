@@ -9,6 +9,11 @@ angular.module('angularCharts', ['angularChartsTemplates']);
 angular.module('angularCharts').directive('acChart', function($templateCache, $compile, $rootElement, $window, $timeout, $sce) {
 
   var defaultColors = [
+
+    // our custom colours
+    '#3da5de',
+    '#ffffff',
+
     'rgb(255,153,0)',
     'rgb(220,57,18)',
     'rgb(70,132,238)',
@@ -1079,7 +1084,7 @@ angular.module('angularCharts').directive('acChart', function($templateCache, $c
 
       scope.$tooltip = el;
 
-      updateToolTip(event);
+      updateToolTip(undefined, event);
     }
 
     /**
