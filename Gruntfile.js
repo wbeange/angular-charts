@@ -115,9 +115,11 @@ module.exports = function(grunt) {
 
   require('load-grunt-tasks')(grunt);
 
-  grunt.registerTask('default', ['ngmin', 'htmlmin', 'html2js', 'csso', 'css2js', 'concat', 'uglify', 'clean']);
-  grunt.registerTask('release', ['prompt', 'bowerValidateRelease']);
-  grunt.registerTask('preRelease', ['default', 'copy:bowerPreRelease']);
+  grunt.registerTask('default', ['ngmin', 'htmlmin', 'html2js', 'csso', 'css2js', 'concat', 'uglify', 'clean' /*, 'karma'*/]);
+  grunt.registerTask('release', ['karma', 'prompt', 'bowerValidateRelease']);
+
+  // build dist for my hacked version
+  grunt.registerTask('buildDist', ['default', 'copy:bowerPreRelease']);
 
   grunt.registerTask('bowerValidateRelease', 'Make sure that we really want to release!', function() {
     if(grunt.config('release') === true) {
